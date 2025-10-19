@@ -5,8 +5,10 @@ from torch.utils.data import DataLoader
 import torchvision, torchvision.transforms as T
 from models.cnn import SimpleCNN
 
+
 def get_loaders(batch_size=128):
     tfm = T.Compose([
+        T.Resize((64, 64)),
         T.ToTensor(),
         T.Normalize((0.4914,0.4822,0.4465), (0.2023,0.1994,0.2010))
     ])
@@ -14,6 +16,7 @@ def get_loaders(batch_size=128):
     test  = torchvision.datasets.CIFAR10(root="./data", train=False, download=True, transform=tfm)
     return DataLoader(train, batch_size=batch_size, shuffle=True,  num_workers=2), \
            DataLoader(test,  batch_size=batch_size, shuffle=False, num_workers=2)
+
 
 def train_one_epoch(model, loader, criterion, optimizer, device):
     model.train()
@@ -31,6 +34,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         total += y.size(0)
     return loss_sum/total, correct/total
 
+
 @torch.no_grad()
 def eval_epoch(model, loader, criterion, device):
     model.eval()
@@ -45,14 +49,18 @@ def eval_epoch(model, loader, criterion, device):
         total += y.size(0)
     return loss_sum/total, correct/total
 
+
 if __name__ == "__main__":
     torch.manual_seed(0)
     device = "cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu")
     print("Device:", device)
+
     train_loader, test_loader = get_loaders()
     model = SimpleCNN(num_classes=10).to(device)
+
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=1e-3)
+
     epochs = 3
     for epoch in range(epochs):
         tr_loss, tr_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
@@ -61,4 +69,4 @@ if __name__ == "__main__":
 
     os.makedirs("artifacts", exist_ok=True)
     torch.save(model.state_dict(), "artifacts/cnn_cifar10.pt")
-    print("Saved weights to artifacts/cnn_cifar10.pt")
+    print("✅ Saved weights to artifacts/cnn_cifar10.pt")
