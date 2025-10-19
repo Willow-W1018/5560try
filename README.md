@@ -1,3 +1,7 @@
+## Repository Overview
+The **main** branch contains code and materials from Assignment 1, Assignment 2 (early version), and several class activities. From Assignment 2, each assignment will have its own branch.
+
+
 # Assignment 1 – FastAPI + Docker
 
 uv run uvicorn app.main:app --reload
