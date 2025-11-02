@@ -1,25 +1,35 @@
-## Repository Overview
-The **main** branch contains code and materials from Assignment 1, Assignment 2 (early version), and several class activities. From Assignment 2, each assignment will have its own branch.
+# Assignment 3
 
+This project trains a **Generative Adversarial Network (GAN)** using **PyTorch** on the **MNIST** dataset and serves the trained generator through a **FastAPI** app running in **Docker**.
 
-# Assignment 1 – FastAPI + Docker
+## Project Structure
+app/main.py # FastAPI app
+models/gan.py # Generator & Discriminator
+train_gan.py # GAN training script
+artifacts/ # Model weights & generated images
+requirements.txt # Dependencies
+Dockerfile # Docker setup
 
-uv run uvicorn app.main:app --reload
+## Train the GAN
+python train_gan.py
+This saves the trained model to:
+artifacts/generator_mnist.pt
 
-Then open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+## Run FastAPI Locally
+uvicorn app.main:app --reload
+
+Then open: http://127.0.0.1:8000
+
+Endpoints:
+/generate_digit_json → Returns JSON info
+/generate_digit_image → Shows generated image
 
 ## Run with Docker
+docker build -t gan-fastapi .
+docker run -p 8000:8000 gan-fastapi
 
-docker build -t sps-genai .
+Then open in browser: http://127.0.0.1:8000
 
-docker run --rm -p 8000:8000 sps-genai
-
-Then open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-
-## Quick test
-
-curl http://127.0.0.1:8000/
-
-curl -X POST "http://127.0.0.1:8000/embed" \
-     -H "Content-Type: application/json" \
-     -d '{"text": "This is a test."}'
+## Expected Files
+artifacts/generator_mnist.pt – trained model
+artifacts/generated_digit.png – sample output

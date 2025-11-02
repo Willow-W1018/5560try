@@ -1,22 +1,15 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.12-slim AS base
-
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential curl ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
+FROM python:3.10
 
 WORKDIR /app
 
+COPY requirements.txt .
+
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir fastapi uvicorn spacy
+    pip install --no-cache-dir -r requirements.txt
 
-RUN python -m spacy download en_core_web_sm
-
-COPY . /app
+COPY . .
 
 EXPOSE 8000
 
