@@ -1,6 +1,6 @@
 # Assignment 3
 
-This project trains a **Generative Adversarial Network (GAN)** using **PyTorch** on the **MNIST** dataset and serves the trained generator through a **FastAPI** app running in **Docker**.
+This project trains a Generative Adversarial Network (GAN) using PyTorch on the MNIST dataset and serves the trained generator through a FastAPI app running in Docker.
 
 ## Project Structure
 app/main.py # FastAPI app
