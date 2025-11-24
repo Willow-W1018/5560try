@@ -1,44 +1,16 @@
-# Assignment 3
+# Assignment 4 – GAN + RNN + Diffusion API
 
-This project trains a Generative Adversarial Network (GAN) using PyTorch on the MNIST dataset and serves the trained generator through a FastAPI app running in Docker.
-
-## Project Structure
-app/main.py # FastAPI app
-
-models/gan.py # Generator & Discriminator
-
-train_gan.py # GAN training script
-
-artifacts/ # Model weights & generated images
-
-requirements.txt # Dependencies
-
-Dockerfile # Docker setup
-
-## Train the GAN
-python train_gan.py
-
-This saves the trained model to:
-artifacts/generator_mnist.pt
-
-## Run FastAPI Locally
+### Run locally
 uvicorn app.main:app --reload
 
-Then open: http://127.0.0.1:8000
+Open [http://127.0.0.1:8000/docs]
+Note: The root URL (http://127.0.0.1:8000) will show "Not Found" — that’s normal!
 
-Endpoints:
-/generate_digit_json → Returns JSON info
+### Endpoints
+- `/generate_gan`
+- `/generate_with_rnn`
+- `/generate_diffusion`
 
-/generate_digit_image → Shows generated image
-
-## Run with Docker
-docker build -t gan-fastapi .
-
-docker run -p 8000:8000 gan-fastapi
-
-Then open in browser: http://127.0.0.1:8000
-
-## Expected Files
-artifacts/generator_mnist.pt – trained model
-
-artifacts/generated_digit.png – sample output
+### Docker
+docker build -t sps-assignment4 .
+docker run -p 8000:8000 sps-assignment4
