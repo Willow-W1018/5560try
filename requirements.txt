@@ -1,0 +1,10 @@
+torch
+torchvision
+fastapi
+uvicorn
+pydantic
+pillow
+numpy
+transformers>=4.45.0
+datasets>=3.0.0
+accelerate
